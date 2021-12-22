@@ -5,10 +5,10 @@ import {db} from "../firebase";
 import firebase from "firebase/compat/app";
 
 
-function ChatInput({channelName, channelId}) {
+function ChatInput({channelName, channelId, chatRef}) {
   //const inputRef = useRef(null);
   const [input, setInput] = React.useState('');
-  console.log(channelId);
+
 
   const sendMessage = (e) => {
     e.preventDefault();//prevents refresh
@@ -25,6 +25,10 @@ function ChatInput({channelName, channelId}) {
 
 
     });
+//텍스트 치면 자동으로 스크롤 되면서 나타나기
+    chatRef.current.scrollIntoView({
+      behavior:"smooth",
+    });
 
     setInput('');
   }
@@ -32,7 +36,7 @@ function ChatInput({channelName, channelId}) {
   return (
     <ChatInputContainer>
       <form>
-        <input value={input} onChange={(e)=>{setInput(e.target.value)}}  placeholder={`Message #ROOM`} />
+        <input value={input} onChange={(e)=>{setInput(e.target.value)}}  placeholder={`Message #${channelName}`} />
         <Button hidden type="submit" onClick={sendMessage}>SEND</Button>
       </form>
     </ChatInputContainer>
